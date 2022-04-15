@@ -73,9 +73,42 @@ export default class NotesView {
 
         for (const note of notes) {
             //pass thru the values
-            const html = this._createListItemHTML(note.id note.title, note.body, new Date(note.updated));
-
+            const html = this._createListItemHTML(note.id, note.title, note.body, new Date(note.updated));
+//inserts html right before end of relevant container
             notesListContainer.insertAdjacentHTML("beforeend", html);
         }
+
+        // add select/delete events for each note
+
+        notesListContainer.querySelectorAll(".notes__list-item").forEach(notesListItem => {
+            notesListItem.addEventListener("click",() => {
+                this.onNoteSelect(notesListItem.dataset.noteId);
+            } );
+
+notesListContainer.updateNotesList("dblclick", () => {
+    const doDelete = confirm("confirm deletion?");
+
+    if (doDelete) {
+
+        this.onNoteDelete(notesListItem.dataset.noteId);
+    }
+})
+
+        })    }
+
+    updateActiveNote(note) {
+        
+        this.root.querySelector("notes__title").value = note.title;
+        this.root.querySelector("notes__body").value = note.body;
+
+        this.root.querySelectorAll(".notes__list-item").forEach(noteListItem => {
+            noteListItem.classList.remove("notes__list-item--selected");
+        });
+
+        this.root.querySelector(`.note__list-item[data-note-id="${note.id}"]`).classList.add("notes__list-item--selected");
+    }
+
+    updateNotePreviewVisibility(visible) {
+        this.root.querySelector(".notes__preview").style.visibility = visible ? "visible" : "hidden";
     }
 }
