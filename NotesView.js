@@ -32,6 +32,50 @@ export default class NotesView {
 
                 this.onNoteEdit(updatedTitle, updatedBody);
             });
-        })
+        });
+
+        //heres the part where we hide note preview by default
+    }
+//underscore = private method. creathes the html string for sidebar items
+    _createListItemHTML(id, title, body, updated) {
+        const MAX_BODY_LENGTH = 60;
+
+        return `
+        <div class="notes__list-item" data-note-id="${id}">
+            <div class="notes__small-title">$(title)</div>
+            <div class="notes__small-body">
+            ${body.substring(0, MAX_BODY_LENGTH)}
+            ${body.length > MAX_BODY_LENGTH ? " ..." : ""}
+            </div>
+
+            <div class="notes__small-updated">
+                
+                $(updated.toLocaleString(undefined, { dateStyle: "full", timestyle: "short"}))
+            
+            </div>
+        </div>
+        `;
+    
+    }
+
+
+    //updating the sidebar
+
+    updateNotesList(notes) {
+
+        const notesListContainer = this.root.querySelector(".notes__list");
+
+        //Empty list;
+
+
+        notesListContainer.innerHTML = "";
+
+
+        for (const note of notes) {
+            //pass thru the values
+            const html = this._createListItemHTML(note.id note.title, note.body, new Date(note.updated));
+
+            notesListContainer.insertAdjacentHTML("beforeend", html);
+        }
     }
 }
