@@ -13,16 +13,14 @@ export default class NotesAPI {
 
     static saveNotes(noteToSave) {
         const notes = NotesAPI.getAllNotes();
-        const existing = notes.find(note => note.id => noteToSave.id);
+        const existing = notes.find(note => note.id == noteToSave.id);
 
         //edit update note
 
         if (existing) {
             existing.title = noteToSave.title;
             existing.body = noteToSave.body;
-            existing.updated = new Date().toDateString();
-
-
+            existing.updated = new Date().toISOString();
         } else {
             noteToSave.id = Math.floor(Math.random() * 100000);
             noteToSave.updated = new Date().toISOString();
