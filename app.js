@@ -23,18 +23,19 @@ export default class App {
             this._setActiveNote(notes[0]);
         }
 
-        _setActiveNote(note) {
-            this.activeNote = note;
-            this.view.updateActiveNote(note);
-
-        }
     }
-
-    _setNotes(notes){
+    
+_setNotes(notes){
         this.notes = notes; 
         this.view.updateNotesList(notes);
         this.view.updateNotePreviewVisibility(notes.length > 0);
     }
+
+    
+    _setActiveNote(note) {
+        this.activeNote = note;
+        this.view.updateActiveNote(note);
+  }
 
     _handlers() {
         return {
